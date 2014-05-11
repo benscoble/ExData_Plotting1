@@ -1,10 +1,10 @@
 ### find the dates to be used - location and number of rows
 lines <- grep('^[1-2]/2/2007', readLines('household_power_consumption.txt'))
 
-
+## read table but missing out first rows until get to date range
 pdata <- read.table(file = "household_power_consumption.txt", sep = ";", skip = 66638,nrows = 2880)
 
-
+## set the colnames to be referred to later
 colnames(pdata) <- c("Date","Time","Global_active_power",
 "Global_reactive_power","Voltage","Global_intensity",
 "Sub_metering_1","Sub_metering_2","Sub_metering_3")
@@ -50,6 +50,6 @@ par(mfrow = c(2, 2))
 
 
 
-
+## open a png file [enter the ploting code] then end with dev.off 
 png(filename = "plottest.png", width = 480, height = 480, units = "px", pointsize = 12, bg = "white")
 dev.off()
