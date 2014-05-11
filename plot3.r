@@ -1,6 +1,6 @@
 plot3 <- function() {
 
-	pdata <- read.table(file = "household_power_consumption.txt", sep = ";", skip = 66637,nrows = 2880)
+	pdata <- read.table(file = "household_power_consumption.txt", sep = ";", skip = 66638,nrows = 2880)
 
 
 	colnames(pdata) <- c("Date","Time","Global_active_power",
