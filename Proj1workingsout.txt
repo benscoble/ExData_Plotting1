@@ -1,0 +1,55 @@
+### find the dates to be used - location and number of rows
+lines <- grep('^[1-2]/2/2007', readLines('household_power_consumption.txt'))
+
+
+pdata <- read.table(file = "household_power_consumption.txt", sep = ";", skip = 66638,nrows = 2880)
+
+
+colnames(pdata) <- c("Date","Time","Global_active_power",
+"Global_reactive_power","Voltage","Global_intensity",
+"Sub_metering_1","Sub_metering_2","Sub_metering_3")
+
+
+##plot1
+hist(pdata$Global_active_power, main="Global Active Power", xlab="Global Active Power (kilowatts)", ylab="Frequency", col="red")
+
+
+##plot2
+datetime <- strptime(paste(pdata$Date, pdata$Time, sep=" "), format="%d/%m/%Y %H:%M:%S")
+plot(datetime, pdata$Global_active_power,type="l", xlab="", ylab="Global Active Power (kilowatts)")
+
+
+##plot3
+
+datetime <- strptime(paste(pdata$Date, pdata$Time, sep=" "), format="%d/%m/%Y %H:%M:%S")
+plot(datetime, pdata$Sub_metering_1, type="l", col="black", ylab="Energy sub metering", xlab="")
+lines(datetime, pdata$Sub_metering_2, type="l", col="red")
+lines(datetime, pdata$Sub_metering_3, type="l", col="blue")
+
+legend("topright", legend = c("Sub_metering_1", "Sub_metering_2", "Sub_metering_2"), lty = 1, col = c("black", "red", "blue"))
+
+##plot4 - multiplot
+
+par(mfrow = c(2, 2))
+	
+	##plot2 [1]
+	plot(datetime, pdata$Global_active_power,type="l", xlab="", ylab="Global Active Power")
+
+	##newvoltage [2]
+	plot(datetime, pdata$Voltage, type="l", col="black", ylab="Voltage")
+
+	##plot3 [3]
+	plot(datetime, pdata$Sub_metering_1, type="l", col="black", ylab="Energy sub metering", xlab="")
+	lines(datetime, pdata$Sub_metering_2, type="l", col="red")
+	lines(datetime, pdata$Sub_metering_3, type="l", col="blue")
+	legend("topright", legend = c("Sub_metering_1", "Sub_metering_2", "Sub_metering_2"), lty = 1, col = c("black",  "red", "blue"))
+		
+
+	##Global_reactive_power [4]
+	plot(datetime, pdata$Global_reactive_power, type="l", col="black", ylab="Global_reactive_power")
+
+
+
+
+png(filename = "plottest.png", width = 480, height = 480, units = "px", pointsize = 12, bg = "white")
+dev.off()
